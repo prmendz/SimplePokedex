@@ -73,7 +73,6 @@ def load_pokemon_data():
     if os.path.exists(JSON_FILE):
         with open(JSON_FILE, 'r') as f:
             data = json.load(f)
-            print("Loaded Pokémon data:", data)  # Debug line
             return data
     else:
         fetch_and_save_pokemon_data()
@@ -82,9 +81,7 @@ def load_pokemon_data():
 @app.route('/generation/<int:gen>')
 def show_generation(gen):
     pokemon_list = load_pokemon_data()
-    print(gen)
     all_pokemon = pokemon_list.get(str(gen), [])
-    print(f"Generation {gen} Pokémon: {all_pokemon}")  # Debug line
     return render_template('generation.html', pokemons=all_pokemon, generation=gen)
 
 if __name__ == '__main__':
