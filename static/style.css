@@ -1,0 +1,129 @@
+body {
+    font-family: 'Arial', sans-serif; /* Use a clean sans-serif font */
+    background-color: #f0f4f8; /* Light background color for the whole page */
+    color: #333; /* Dark text for contrast */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+header {
+    background-color: #007BFF; /* Header background color */
+    color: white; /* White text for header */
+    text-align: center; /* Center text */
+    padding: 20px 0; /* Vertical padding */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+}
+
+.button {
+    margin-bottom: 10px; /* Space between button and search input */
+}
+
+
+.pokemon-list {
+    padding: 20px; /* Padding around the list */
+}
+
+.generation-container {
+    margin-bottom: 30px; /* Space between generations */
+    text-align: center; /* Center the generation headings */
+}
+
+h2 {
+    color: #007BFF; /* Color for generation headings */
+}
+
+.pokemon-row {
+    display: flex; /* Use flexbox for card layout */
+    flex-wrap: wrap; /* Allow cards to wrap */
+    justify-content: flex-start; /* Align to the left */
+}
+
+.pokemon-card {
+    display: flex; /* Arrange image and info side by side */
+    align-items: center; /* Center items vertically */
+    margin: 10px; /* Space between cards */
+    padding: 15px; /* Padding inside cards */
+    background-color: #ffffff; /* White card background */
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    transition: transform 0.2s, box-shadow 0.2s; /* Transition effects */
+    width: calc(33.33% - 20px); /* Responsive width for three cards per row */
+    box-sizing: border-box; /* Include padding and border in width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.pokemon-card:hover {
+    transform: translateY(-3px); /* Lift card slightly on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+.pokemon-image {
+    width: 160px; /* Fixed width for the image */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 40px; /* Space between info and image */
+    border-radius: 0px; /* Rounded image corners */
+}
+
+.pokemon-info {
+    flex-grow: 1; /* Allow info to grow */
+    text-align: left; /* Left align text */
+}
+
+.pokemon-info h2 {
+    margin: 0; /* Remove default margin */
+    font-size: 1.2em; /* Slightly larger heading */
+    color: #333; /* Darker color for headings */
+}
+
+.pokemon-info p {
+    margin: 5px 0; /* Margin for paragraphs */
+    font-size: 0.9em; /* Smaller font size */
+}
+
+.pokemon-info strong {
+    color: #007BFF; /* Color for labels */
+}
+
+.more-info {
+    margin-top: 10px; /* Space above link */
+    display: inline-block; /* Make link a block element */
+    padding: 8px 12px; /* Padding for the link */
+    background-color: #007BFF; /* Link background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.more-info:hover {
+    background-color: #0056b3; /* Darken link on hover */
+}
+
+.button {
+    display: inline-block; /* Make button a block element */
+    margin-top: 10px; /* Space above button */
+    padding: 10px 15px; /* Padding */
+    background-color: #28a745; /* Green background for the button */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.button:hover {
+    background-color: #218838; /* Darken button on hover */
+}
+
+@media (max-width: 768px) {
+    .pokemon-card {
+        width: calc(50% - 20px); /* Two cards per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .pokemon-card {
+        width: calc(100% - 20px); /* One card per row on mobile screens */
+    }
+}

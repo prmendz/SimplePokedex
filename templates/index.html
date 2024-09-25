@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <script>
+        // Function to show all Pokémon from a specific generation
+        function showAllPokemon(gen) {
+            const allPokemon = JSON.parse(document.getElementById(`all-pokemon-${gen}`).textContent);
+            const pokemonContainer = document.getElementById(`pokemon-gen-${gen}`);
+            pokemonContainer.innerHTML = ''; // Clear previous Pokémon
+
+            // Loop through all Pokémon for the selected generation and create cards
+            allPokemon.forEach(pokemon => {
+                const card = `
+                    <div class="pokemon-card">
+                        <div class="pokemon-info">
+                            <h2>${pokemon.name.title()}</h2>
+                            <p><strong>ID:</strong> ${pokemon.id}</p>
+                            <p><strong>Type:</strong> ${pokemon.types.join(', ')}</p>
+                            <p><strong>Height:</strong> ${pokemon.height}</p>
+                            <p><strong>Weight:</strong> ${pokemon.weight}</p>
+                            <a class="more-info" href="${pokemon.url}" target="_blank">More Information <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                        <img src="${pokemon.image}" alt="${pokemon.name}" class="pokemon-image">
+                    </div>
+                `;
+                pokemonContainer.innerHTML += card; // Add card to the container
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Pokédex</h1>
+    </header>
+    <main>
+        <div class="pokemon-list">
+            {% for gen, pokemons in pokemon_list.items() %}
+                <div class="generation-container">
+                    <h2>Generation {{ gen }}</h2>
+                    <div id="pokemon-gen-{{ gen }}" class="pokemon-row">
+                        {% for pokemon in pokemons %}
+                            <div class="pokemon-card">
+                                <div class="pokemon-info">
+                                    <h2>{{ pokemon.name.title() }}</h2>
+                                    <p><strong>ID:</strong> {{ pokemon.id }}</p>
+                                    <p><strong>Type:</strong> {{ pokemon.types | join(', ') }}</p>
+                                    <p><strong>Height:</strong> {{ pokemon.height }}</p>
+                                    <p><strong>Weight:</strong> {{ pokemon.weight }}</p>
+                                    <a class="more-info" href="{{ pokemon.url }}" target="_blank">More Information <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                                <img src="{{ pokemon.image }}" alt="{{ pokemon.name }}" class="pokemon-image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ url_for('show_generation', gen=gen) }}" class="button">Show All Pokémon from Generation {{ gen }}</a>
+                    <script type="application/json" id="all-pokemon-{{ gen }}">{{ pokemons | tojson | safe }}</script>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

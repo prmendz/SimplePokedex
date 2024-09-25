@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generation {{ generation }} Pokémon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <script>
+        // Function to filter Pokémon based on the search input
+        function filterPokemon() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const pokemonCards = document.querySelectorAll('.pokemon-card');
+
+            pokemonCards.forEach(card => {
+                const pokemonName = card.querySelector('h2').textContent.toLowerCase();
+                const pokemonId = card.querySelector('p strong').textContent.toLowerCase();
+
+                if (pokemonName.includes(searchTerm) || pokemonId.includes(searchTerm)) {
+                    card.style.display = ''; // Show card if it matches the search term
+                } else {
+                    card.style.display = 'none'; // Hide card if it doesn't match
+                }
+            });
+        }
+
+        // Function to sort Pokémon based on the selected attribute
+        function sortPokemon() {
+            const sortingCriteria = document.getElementById('sorting-criteria').value;
+            const pokemonCards = Array.from(document.querySelectorAll('.pokemon-card'));
+
+            // Sort the Pokémon cards based on the selected criteria
+            pokemonCards.sort((a, b) => {
+                let valueA, valueB;
+
+                if (sortingCriteria === 'id') {
+                    // Select the strong element containing "ID:" and get the next sibling text node which has the value
+                    valueA = parseInt(a.querySelector('p strong').nextSibling.textContent.trim()); // ID
+                    valueB = parseInt(b.querySelector('p strong').nextSibling.textContent.trim()); // ID
+                } else if (sortingCriteria === 'weight') {
+                    valueA = parseFloat(a.querySelectorAll('p')[3].textContent.split(': ')[1].trim()); // Weight
+                    valueB = parseFloat(b.querySelectorAll('p')[3].textContent.split(': ')[1].trim()); // Weight
+                } else if (sortingCriteria === 'height') {
+                    valueA = parseFloat(a.querySelectorAll('p')[2].textContent.split(': ')[1].trim()); // Height
+                    valueB = parseFloat(b.querySelectorAll('p')[2].textContent.split(': ')[1].trim()); // Height
+                }
+
+                return valueA - valueB; // Ascending order
+            });
+
+            // Re-append the sorted cards to the pokemon-row
+            const pokemonRow = document.querySelector('.pokemon-row');
+            pokemonRow.innerHTML = ''; // Clear the current list
+            pokemonCards.forEach(card => pokemonRow.appendChild(card)); // Append sorted cards
+        }
+
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Generation {{ generation }} Pokémon</h1>
+        <a class="button" href="/">Back to Pokédex</a>
+        <input type="text" id="search-input" placeholder="Search Pokémon by name or number" onkeyup="filterPokemon()">
+        
+        <!-- Sorting dropdown -->
+        <select id="sorting-criteria" onchange="sortPokemon()">
+            <option value="">Sort by</option>
+            <option value="id">ID</option>
+            <option value="weight">Weight</option>
+            <option value="height">Height</option>
+        </select>
+    </header>
+    <main>
+        <div class="generation-container">
+            <div class="pokemon-list">
+                <div class="pokemon-row">
+                    {% for pokemon in pokemons %}
+                        <div class="pokemon-card">
+                            <div class="pokemon-info">
+                                <h2>{{ pokemon.name.title() }}</h2>
+                                <p><strong>ID:</strong> {{ pokemon.id }}</p>
+                                <p><strong>Type:</strong> {{ pokemon.types | join(', ') }}</p>
+                                <p><strong>Height:</strong> {{ pokemon.height }}</p>
+                                <p><strong>Weight:</strong> {{ pokemon.weight }}</p>
+                                <a class="more-info" href="{{ pokemon.url }}" target="_blank">More Information <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <img src="{{ pokemon.image }}" alt="{{ pokemon.name }}" class="pokemon-image">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
